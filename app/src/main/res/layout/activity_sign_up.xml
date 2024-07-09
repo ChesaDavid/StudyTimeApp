@@ -35,7 +35,7 @@
         android:textColor="@color/white"/>
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/email"
         android:layout_width="239dp"
         android:layout_height="70dp"
         android:ems="10"
@@ -50,7 +50,7 @@
         android:textColor="@color/white" />
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/name"
         android:layout_width="232dp"
         android:layout_height="75dp"
         android:ems="10"
@@ -66,7 +66,8 @@
         app:layout_constraintVertical_bias="0.332" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/password"
+        android:autofillHints="password"
         android:layout_width="237dp"
         android:layout_height="70dp"
         android:ems="10"
