@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
+    id("com.android.application")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -29,6 +31,24 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    buildscript{
+        repositories {
+            // Make sure that you have the following two repositories
+            google()  // Google's Maven repository
+            mavenCentral()  // Maven Central repository
+        }
+        dependencies {
+            // Add the Maven coordinates and latest version of the plugin
+            classpath ("PLUGIN_MAVEN_COORDINATES:PLUGIN_VERSION")
+        }
+    }
+    allprojects {
+        repositories {
+            // Make sure that you have the following two repositories
+            google()  // Google's Maven repository
+            mavenCentral()  // Maven Central repository
+        }
+    }
 }
 
 dependencies {
@@ -42,4 +62,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
+    implementation("com.google.firebase:firebase-analytics")
 }

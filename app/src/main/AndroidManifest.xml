@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.StudyTimerAppCode">
         <activity
+            android:name=".Guest"
+            android:exported="false" />
+        <activity
             android:name=".SignUp"
             android:exported="false" />
         <activity
