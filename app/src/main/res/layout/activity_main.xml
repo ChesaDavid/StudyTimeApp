@@ -6,6 +6,82 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/deep_orange_900"
     tools:context=".MainActivity">
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+  <TextView
+      android:id="@+id/textView"
+      android:layout_width="212dp"
+      android:layout_height="59dp"
+      android:text="@string/HelloWorld"
+      android:textAlignment="center"
+      android:textColor="@color/black1"
+      android:textFontWeight="@integer/material_motion_duration_long_1"
+      android:textSize="@dimen/fiveMM"
+      android:textStyle="bold|italic"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.527"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.369" />
+
+  <ImageView
+      android:id="@+id/imageView"
+      android:layout_width="200dp"
+      android:layout_height="193dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.497"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.072"
+      app:srcCompat="@drawable/ic_launcher_background" />
+
+  <Button
+      android:id="@+id/login"
+      android:layout_width="132dp"
+      android:layout_height="83dp"
+      android:text="@string/LogIn"
+      android:textSize="@dimen/threeMM"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.498"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/textView"
+      android:background="@color/yellow_100"
+      android:textColor="@color/black"
+      app:layout_constraintVertical_bias="0.114" />
+
+  <Button
+      android:id="@+id/signup"
+      android:layout_width="132dp"
+      android:layout_height="83dp"
+      android:text="@string/SignUp"
+      android:textSize="@dimen/threeMM"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.498"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/textView"
+      android:background="@color/yellow_100"
+      app:layout_constraintVertical_bias="0.498"
+      android:textColor="@color/black"
+      />
+
+  <Button
+      android:id="@+id/guest"
+      android:layout_width="132dp"
+      android:layout_height="83dp"
+      android:text="@string/Guest"
+      android:textSize="@dimen/threeMM"
+      android:background="@color/yellow_100"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.498"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/textView"
+      app:layout_constraintVertical_bias="0.885"
+      />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
