@@ -2,4 +2,5 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="threeMM">3mm</dimen>
     <dimen name="fiveMM">5mm</dimen>
+    <dimen name="db">45dp</dimen>
 </resources>

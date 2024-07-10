@@ -83,7 +83,7 @@
         android:textColorHint="@color/white"/>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/submit"
         android:layout_width="142dp"
         android:layout_height="80dp"
         android:text="@string/Submit"

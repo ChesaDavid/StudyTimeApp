@@ -1,10 +1,10 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.googleGmsGoogleServices)
-
 }
 
 android {
+
     namespace = "com.example.studytimerappcode"
     compileSdk = 34
 
@@ -21,7 +21,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -31,8 +34,9 @@ android {
     buildFeatures {
         viewBinding = true
 
-}
+    }
 
+}
 dependencies {
 
     implementation(libs.appcompat)
@@ -46,7 +50,9 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth-ktx:33.1.1")
 }
 dependencies {
     implementation(libs.firebase.database)
-}}
+}
+
