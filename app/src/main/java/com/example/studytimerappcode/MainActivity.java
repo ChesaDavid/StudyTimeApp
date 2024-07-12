@@ -54,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, SignUp.class));
             }
         });
+        guest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,Guest.class));
+            }
+        });
         
     }
 
