@@ -18,10 +18,7 @@
         <activity
             android:name=".LogIn"
             android:exported="false" />
-        <activity
-            android:name=".LogIN"
-            android:exported="false"
-            android:theme="@style/Base.Theme.StudyTimerAppCode" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private InternalAuthProvider mAuth;
     private DatabaseReference mDatabase;
-
+    private Button login,signup,guest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,30 +34,34 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        login = findViewById(R.id.login);
+        signup = findViewById(R.id.signup);
+        guest = findViewById(R.id.guest);
+        onUserInteraction();
     }
 
     @Override
     public void onUserInteraction() {
         super.onUserInteraction();
-        Button login = findViewById(R.id.login);
-        Button signup = findViewById(R.id.signup);
-        Button guest = findViewById(R.id.guest);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,LogIn.class));
+                Intent intent = new Intent(MainActivity.this,LogIn.class);
+                startActivity(intent);
             }
         });
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, SignUp.class));
+                Intent intent = new Intent(MainActivity.this,SignUp.class);
+                startActivity(intent);
             }
         });
         guest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,Guest.class));
+                Intent intent = new Intent(MainActivity.this,Guest.class);
+                startActivity(intent);
             }
         });
         
