@@ -17,27 +17,37 @@ public class Guest extends AppCompatActivity {
     private TextView hourText,minText,secText;
     private Button startBtn,restartBtn,stopBtn;
 
+    public Toast toast;
+
     private Handler handler = new Handler();
     private long startTimer = 0L, timeMiliseconds = 0L,timeSwampBuff = 0L, updateTime = 0L;
 
+    int sec,min,hour;
     private Runnable updateTimerThread = new Runnable() {
         @Override
         public void run() {
             timeMiliseconds = System.currentTimeMillis() - startTimer;
             updateTime = timeSwampBuff + timeMiliseconds;
-            int sec = (int)(updateTime/1000);
-            int min = sec/60;
+            sec = (int)(updateTime/1000);
+            min = sec/60;
             sec %= 60;
-            int hour = min/60;
+            hour = min/60;
             min %= 60;
             int miliseconds = (int)(updateTime % 1000);
             hourText.setText(String.format("%02d",hour));
             minText.setText(String.format("%02d",min));
             secText.setText(String.format("%02d",sec));
             handler.postDelayed(this,0);
-
         }
     };
+
+    private Runnable updateToast = new Runnable() {
+        @Override
+        public void run() {
+            toast = Toast.makeText(Guest.this,"You have studied for: " + hour + " hours " + min + " minutes " + sec + " seconds",Toast.LENGTH_SHORT);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +64,7 @@ public class Guest extends AppCompatActivity {
         startBtn = findViewById(R.id.start);
         restartBtn = findViewById(R.id.restart);
         stopBtn = findViewById(R.id.stop);
-
+        handler.postDelayed(updateToast,0);
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,9 +78,9 @@ public class Guest extends AppCompatActivity {
             public void onClick(View v) {
                 timeSwampBuff += timeMiliseconds;
                 handler.removeCallbacks(updateTimerThread);
+                toast.show();
             }
         });
-        Toast toast = Toast.makeText(this,"You have studied for: " + hourText.getText() + "h " + minText.getText() + "min "+ secText.getText() + "s",Toast.LENGTH_SHORT);
         restartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +88,9 @@ public class Guest extends AppCompatActivity {
                 timeSwampBuff = 0L;
                 timeMiliseconds = 0L;
                 updateTime = 0L;
+                min = 0;
+                sec = 0;
+                hour=0;
                 toast.show();
                 hourText.setText("00");
                 minText.setText("00");
