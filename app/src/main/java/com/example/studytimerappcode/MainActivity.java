@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         login = findViewById(R.id.login);
         signup = findViewById(R.id.signup);
         guest = findViewById(R.id.guest);
-        onUserInteraction();
     }
 
     @Override
