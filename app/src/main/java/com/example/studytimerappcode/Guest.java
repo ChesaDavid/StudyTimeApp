@@ -70,6 +70,7 @@ public class Guest extends AppCompatActivity {
             public void onClick(View v) {
                 startTimer = System.currentTimeMillis();
                 handler.postDelayed(updateTimerThread,0);
+                handler.postDelayed(updateToast,0);
             }
         });
 
@@ -78,12 +79,15 @@ public class Guest extends AppCompatActivity {
             public void onClick(View v) {
                 timeSwampBuff += timeMiliseconds;
                 handler.removeCallbacks(updateTimerThread);
-                toast.show();
+                getToast();
             }
         });
         restartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                timeSwampBuff += timeMiliseconds;
+                handler.removeCallbacks(updateTimerThread);
+                getToast();
                 startTimer = 0L;
                 timeSwampBuff = 0L;
                 timeMiliseconds = 0L;
@@ -97,5 +101,13 @@ public class Guest extends AppCompatActivity {
                 secText.setText("00");
             }
         });
+    }
+    private void getToast(){
+        String hour = hourText.getText() + "hour ";
+        String minute = minText.getText() + "minute ";
+        String second = secText.getText() + "second ";
+        String massage = "You have studied for: " + hour + minute + second;
+        Toast toast1 = Toast.makeText(this,massage,Toast.LENGTH_SHORT);
+        toast1.show();
     }
 }
