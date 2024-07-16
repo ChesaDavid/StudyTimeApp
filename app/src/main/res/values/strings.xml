@@ -16,4 +16,12 @@
     <string name="guest_beginning">Welcome to your guest account page</string>
     <string name="start">Start a study session now</string>
     <string name="choose">Choose how long would you like to study for</string>
+    <string name="double_break_point">:</string>
+    <string name="zero">00</string>
+    <string name="min">min</string>
+    <string name="sec">sec</string>
+    <string name="hour">hour</string>
+    <string name="startBtn">Start</string>
+    <string name="restart">Restart</string>
+    <string name="stop">Stop</string>
 </resources>
