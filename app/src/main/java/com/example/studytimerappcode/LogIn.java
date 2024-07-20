@@ -44,6 +44,6 @@ public class LogIn extends AppCompatActivity {
         });
     }
     private void loginUser(String email,String password){
-//        need to make the login function
+
     }
 }
