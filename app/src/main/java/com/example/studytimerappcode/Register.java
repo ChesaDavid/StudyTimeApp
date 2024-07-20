@@ -2,7 +2,6 @@ package com.example.studytimerappcode;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,14 +16,11 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.internal.InternalAuthProvider;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.tracing.FirebaseTrace;
-import com.google.firebase.auth.*;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-public class SignUp extends AppCompatActivity {
+public class Register extends AppCompatActivity {
     private EditText email,name,password;
     private Button submit;
     private  FirebaseAuth mAuth;
@@ -33,16 +29,13 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_register);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        user = mAuth.getCurrentUser();
-        if(user != null){
-            reload();
-        }
+
         email = findViewById(R.id.email);
         name = findViewById(R.id.name);
         password = findViewById(R.id.password);
@@ -55,7 +48,7 @@ public class SignUp extends AppCompatActivity {
                 String passField = password.getText().toString();
                 String nameField = name.getText().toString();
                 if(TextUtils.isEmpty(emailField) || TextUtils.isEmpty(passField) || TextUtils.isEmpty(nameField)){
-                    Toast.makeText(SignUp.this,"All field are requierd.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Register.this,"All field are requierd.",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else{
@@ -65,10 +58,6 @@ public class SignUp extends AppCompatActivity {
         });
     }
 
-    private void reload() {
-        FirebaseAuth.getInstance().signOut();
-    }
-
     private void registerUser(String email,String password,String name){
 
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -76,18 +65,12 @@ public class SignUp extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                             FirebaseUser user = mAuth.getCurrentUser();
+                            FirebaseUser user = mAuth.getCurrentUser();
                         } else {
-                            Toast.makeText(SignUp.this, "Authentication failed.",
+                            Toast.makeText(Register.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-    }
-
-    @Override
-    public void onUserInteraction() {
-        super.onUserInteraction();
-
     }
 }

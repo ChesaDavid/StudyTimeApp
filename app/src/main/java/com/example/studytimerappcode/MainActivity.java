@@ -37,11 +37,6 @@ public class MainActivity extends AppCompatActivity {
         login = findViewById(R.id.login);
         signup = findViewById(R.id.signup);
         guest = findViewById(R.id.guest);
-    }
-
-    @Override
-    public void onUserInteraction() {
-        super.onUserInteraction();
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,SignUp.class);
+                Intent intent = new Intent(MainActivity.this,Register.class);
                 startActivity(intent);
             }
         });
@@ -63,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        
     }
+
 
 
 

@@ -4,12 +4,14 @@
 
     <application
         android:allowBackup="true"
-
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.StudyTimerAppCode">
+        <activity
+            android:name=".Register"
+            android:exported="false" />
         <activity
             android:name=".Guest"
             android:exported="false" />
@@ -19,7 +21,6 @@
         <activity
             android:name=".LogIn"
             android:exported="false" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
