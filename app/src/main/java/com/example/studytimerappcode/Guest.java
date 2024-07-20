@@ -1,5 +1,6 @@
 package com.example.studytimerappcode;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -48,6 +49,7 @@ public class Guest extends AppCompatActivity {
         }
     };
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,18 +73,31 @@ public class Guest extends AppCompatActivity {
                 startTimer = System.currentTimeMillis();
                 handler.postDelayed(updateTimerThread,0);
                 handler.postDelayed(updateToast,0);
+                restartBtn.setVisibility(View.VISIBLE);
+                stopBtn.setVisibility(View.VISIBLE);
+                startBtn.setVisibility(View.INVISIBLE);
             }
         });
 
-        stopBtn.setOnClickListener(new View.OnClickListener() {
+        restartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                timeSwampBuff += timeMiliseconds;
-                handler.removeCallbacks(updateTimerThread);
-                getToast();
+                if(restartBtn.getText().equals("Pause")){
+                    restartBtn.setText("Restart");
+                    timeSwampBuff += timeMiliseconds;
+                    handler.removeCallbacks(updateTimerThread);
+                    getToast();
+                }
+                else{
+                    restartBtn.setText("Pause");
+                    startTimer = System.currentTimeMillis();
+                    handler.postDelayed(updateTimerThread,0);
+                    handler.postDelayed(updateToast,0);
+                }
+
             }
         });
-        restartBtn.setOnClickListener(new View.OnClickListener() {
+        stopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 timeSwampBuff += timeMiliseconds;
@@ -95,10 +110,12 @@ public class Guest extends AppCompatActivity {
                 min = 0;
                 sec = 0;
                 hour=0;
-                toast.show();
                 hourText.setText("00");
                 minText.setText("00");
                 secText.setText("00");
+                restartBtn.setVisibility(View.INVISIBLE);
+                stopBtn.setVisibility(View.INVISIBLE);
+                startBtn.setVisibility(View.VISIBLE);
             }
         });
     }
