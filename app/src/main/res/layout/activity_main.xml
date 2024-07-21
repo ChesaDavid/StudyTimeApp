@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/deep_orange_900"
+    android:background="@color/black"
     tools:context=".MainActivity">
 
   <TextView
@@ -15,7 +15,7 @@
       android:layout_height="59dp"
       android:text="@string/HelloWorld"
       android:textAlignment="center"
-      android:textColor="@color/black1"
+      android:textColor="@color/white"
       android:textFontWeight="@integer/material_motion_duration_long_1"
       android:textSize="@dimen/fiveMM"
       android:textStyle="bold|italic"
@@ -56,7 +56,7 @@
       android:id="@+id/signup"
       android:layout_width="132dp"
       android:layout_height="83dp"
-      android:text="@string/SignUp"
+      android:text="@string/register"
       android:textSize="@dimen/threeMM"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"

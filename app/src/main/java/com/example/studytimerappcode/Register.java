@@ -1,10 +1,13 @@
 package com.example.studytimerappcode;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -25,6 +28,9 @@ public class Register extends AppCompatActivity {
     private Button submit;
     private  FirebaseAuth mAuth;
     public FirebaseUser user;
+    private ProgressBar progressBar;
+    private TextView click;
+    private Button exit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,37 +41,62 @@ public class Register extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
+        exit = findViewById(R.id.exit);
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         email = findViewById(R.id.email);
-        name = findViewById(R.id.name);
         password = findViewById(R.id.password);
         submit = findViewById(R.id.submit);
         mAuth = FirebaseAuth.getInstance();
+        progressBar = findViewById(R.id.progressBar);
+        click = findViewById(R.id.click);
+
+        click.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent activity = new Intent(Register.this, LogIn.class);
+                startActivity(activity);
+            }
+        });
+
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String emailField = email.getText().toString();
                 String passField = password.getText().toString();
-                String nameField = name.getText().toString();
-                if(TextUtils.isEmpty(emailField) || TextUtils.isEmpty(passField) || TextUtils.isEmpty(nameField)){
+                progressBar.setVisibility(View.VISIBLE);
+                if(TextUtils.isEmpty(emailField) || TextUtils.isEmpty(passField)){
                     Toast.makeText(Register.this,"All field are requierd.",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else{
-                    registerUser(emailField,passField,nameField);
+                    registerUser(emailField,passField);
                 }
             }
         });
     }
 
-    private void registerUser(String email,String password,String name){
+    private void registerUser(String email,String password){
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
+                            Toast.makeText(Register.this, "Authentication successful.",
+                                    Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(),Profile.class);
+                            startActivity(intent);
+                            finish();
                         } else {
                             Toast.makeText(Register.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();

@@ -26,4 +26,8 @@
     <string name="stop">Stop</string>
     <string name="pause">Pause</string>
     <string name="register">Register</string>
+    <string name="ClicktoLogIn">Click to LogIn</string>
+    <string name="clickToRegister">Click to Register</string>
+    <string name="logout">LogOut</string>
+    <string name="arrow"><![CDATA[<-]]></string>
 </resources>
