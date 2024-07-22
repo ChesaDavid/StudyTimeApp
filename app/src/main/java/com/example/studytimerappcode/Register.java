@@ -31,6 +31,8 @@ public class Register extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextView click;
     private Button exit;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

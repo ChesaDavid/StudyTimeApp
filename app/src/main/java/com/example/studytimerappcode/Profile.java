@@ -50,6 +50,7 @@ public class Profile extends AppCompatActivity {
     logout.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            mAuth.signOut();
             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
             startActivity(intent);
             finish();
