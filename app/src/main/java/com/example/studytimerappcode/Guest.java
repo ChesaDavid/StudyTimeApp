@@ -1,6 +1,7 @@
 package com.example.studytimerappcode;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -19,7 +20,7 @@ public class Guest extends AppCompatActivity {
     private Button startBtn,restartBtn,stopBtn;
 
     public Toast toast;
-
+    private TextView exit;
     private Handler handler = new Handler();
     private long startTimer = 0L, timeMiliseconds = 0L,timeSwampBuff = 0L, updateTime = 0L;
 
@@ -78,7 +79,15 @@ public class Guest extends AppCompatActivity {
                 startBtn.setVisibility(View.INVISIBLE);
             }
         });
-
+        exit = findViewById(R.id.textView6);
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Guest.this,MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         restartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

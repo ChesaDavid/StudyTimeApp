@@ -4,6 +4,7 @@ import static java.sql.Types.NULL;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -22,7 +23,7 @@ public class Profile extends AppCompatActivity {
 
     FirebaseUser user;
     FirebaseAuth mAuth;
-    TextView email;
+    TextView name;
     Button logout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,7 @@ public class Profile extends AppCompatActivity {
             return insets;
         });
         mAuth = FirebaseAuth.getInstance();
-        email = findViewById(R.id.profile);
+        name = findViewById(R.id.profile);
         logout = findViewById(R.id.button);
         user = mAuth.getCurrentUser();
         if(user == null){
@@ -45,12 +46,15 @@ public class Profile extends AppCompatActivity {
             finish();
         }
         else{
-            email.setText(user.getEmail());
+            if(TextUtils.isEmpty(user.getDisplayName())){
+                name.setText(user.getEmail());
+            }else {
+                name.setText(user.getDisplayName());
+            }
         }
     logout.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mAuth.signOut();
             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
             startActivity(intent);
             finish();

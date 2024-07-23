@@ -31,16 +31,16 @@ public class LogIn extends AppCompatActivity {
     private Button exit;
     private FirebaseAuth mAuth;
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            Intent intent = new Intent(getApplicationContext(),Profile.class);
-            startActivity(intent);
-            finish();
-        }
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        if(currentUser != null){
+//            Intent intent = new Intent(getApplicationContext(),Profile.class);
+//            startActivity(intent);
+//            finish();
+//        }
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,10 +79,13 @@ public class LogIn extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
+                login.setVisibility(View.GONE);
                 String passwordField = password.getText().toString();
                 String emailField = email.getText().toString();
                 if(TextUtils.isEmpty(passwordField) || TextUtils.isEmpty(emailField)){
                     Toast.makeText(LogIn.this,"All field are requierd.", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    login.setVisibility(View.VISIBLE);
                 }
                 else{
                     loginUser(passwordField,emailField);
@@ -95,6 +98,8 @@ public class LogIn extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE);
+                        login.setVisibility(View.VISIBLE);
                         if (task.isSuccessful()) {
                             Toast.makeText(LogIn.this, "Authentication successful.",Toast.LENGTH_SHORT);
                             FirebaseUser user = mAuth.getCurrentUser();
