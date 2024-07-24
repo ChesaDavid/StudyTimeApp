@@ -30,4 +30,9 @@
     <string name="clickToRegister">Click to Register</string>
     <string name="logout">LogOut</string>
     <string name="arrow"><![CDATA[<-]]></string>
+    <string name="changeProfile">Change profile info</string>
+    <string name="calendar">Calendar</string>
+    <string name="study">Study</string>
+    <string name="todo">ToDo</string>
+    <string name="stats">Statistics</string>
 </resources>

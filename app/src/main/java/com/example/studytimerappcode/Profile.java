@@ -24,7 +24,7 @@ public class Profile extends AppCompatActivity {
     FirebaseUser user;
     FirebaseAuth mAuth;
     TextView name;
-    Button logout;
+    TextView logout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
