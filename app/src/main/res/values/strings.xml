@@ -35,4 +35,6 @@
     <string name="study">Study</string>
     <string name="todo">ToDo</string>
     <string name="stats">Statistics</string>
+    <string name="Profile">Profile</string>
+    <string name="delete">Delete</string>
 </resources>

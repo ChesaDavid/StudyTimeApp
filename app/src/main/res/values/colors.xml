@@ -26,6 +26,12 @@
         <color name="pink_800">#FFAD1457</color>
         <color name="pink_900">#FF880E4F</color>
         <color name="purple_100">#FFE1BEE7</color>
+        <color name="colorPrimary">#6200EE</color>
+        <color name="colorPrimaryDark">#3700B3</color>
+        <color name="colorAccent">#03DAC5</color>
+        <color name="backgroundColor">#F5F5F5</color>
+
+        <color name="gray">#BDBDBD</color>
         <color name="purple_2002">#FFCE93D8</color>
         <color name="purple_300">#FFBA68C8</color>
         <color name="purple_400">#FFAB47BC</color>

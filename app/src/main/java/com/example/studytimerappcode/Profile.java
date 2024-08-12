@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ public class Profile extends AppCompatActivity {
     FirebaseAuth mAuth;
     TextView name;
     TextView logout;
+    private ImageView todo,calendar,statistics,study;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +41,15 @@ public class Profile extends AppCompatActivity {
         name = findViewById(R.id.profile);
         logout = findViewById(R.id.button);
         user = mAuth.getCurrentUser();
+        todo = findViewById(R.id.todo);
+        todo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent  = new Intent(Profile.this,ToDo.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         if(user == null){
             Toast.makeText(this, "No user found", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
