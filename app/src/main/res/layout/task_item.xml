@@ -9,11 +9,24 @@
 
     <TextView
         android:id="@+id/taskText"
-        android:layout_width="0dp"
+        android:layout_width="254dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textColor="@color/black"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/startTaskButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_background"
+        android:text="@string/startTsk"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:layout_marginRight="2sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        />
 
     <Button
         android:id="@+id/removeTaskButton"

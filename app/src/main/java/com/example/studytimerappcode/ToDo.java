@@ -116,8 +116,16 @@ public class ToDo extends AppCompatActivity {
         View taskView = getLayoutInflater().inflate(R.layout.task_item, tasksContainer, false);
         TextView taskTextView = taskView.findViewById(R.id.taskText);
         Button removeButton = taskView.findViewById(R.id.removeTaskButton);
-
+        TextView startTask = taskView.findViewById(R.id.startTaskButton);
         taskTextView.setText(task);
+
+        startTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         removeButton.setOnClickListener(v -> {
             tasksRef.child(taskId).removeValue();  // Remove task from Firebase
             tasksContainer.removeView(taskView);  // Remove task from UI
