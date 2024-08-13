@@ -2,6 +2,7 @@ package com.example.studytimerappcode;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -54,9 +56,6 @@ public class ToDo extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         user = mAuth.getCurrentUser();
 
-        // Reference to the user's tasks in the database
-        tasksRef = database.getReference("tasks").child(user.getUid());
-
         // Initialize UI elements
         back = findViewById(R.id.buttonProfile);
         buttonAdd = findViewById(R.id.buttonAdd);
@@ -64,26 +63,48 @@ public class ToDo extends AppCompatActivity {
         tasksContainer = findViewById(R.id.tasksContainer);
         name = findViewById(R.id.name);
 
-        // Set user's display name
+        // Check user authentication and set user's display name
         if (user != null) {
             name.setText("Hello, " + user.getDisplayName());
+
+            // Reference to the user's tasks in the database
+            tasksRef = database.getReference("tasks").child(user.getUid());
+
+            // Load tasks from Firebase
+            loadTasksFromDatabase();
+
+            // Add task button functionality
+            buttonAdd.setOnClickListener(v -> {
+                String task = editTextTask.getText().toString();
+                if (!task.isEmpty()) {
+                    String taskId = tasksRef.push().getKey();  // Generate a unique ID for the task
+                    Map<String, Object> taskData = new HashMap<>();
+                    taskData.put("task", task);
+
+                    Log.d("ToDoActivity", "Adding task with ID: " + taskId);
+
+                    tasksRef.child(taskId).setValue(taskData)
+                            .addOnSuccessListener(aVoid -> {
+                                // Write was successful
+                                Toast.makeText(ToDo.this, "Task added successfully", Toast.LENGTH_SHORT).show();
+                            })
+                            .addOnFailureListener(e -> {
+                                // Write failed
+                                Log.e("ToDoActivity", "Failed to add task: " + e.getMessage());
+                                Toast.makeText(ToDo.this, "Failed to add task: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+                    addTaskToUI(taskId, task);
+                    editTextTask.setText("");  // Clear the input field
+                }
+            });
+
+        } else {
+            Toast.makeText(ToDo.this, "User not authenticated", Toast.LENGTH_SHORT).show();
+            // Optionally, redirect to login or main activity
+            Intent intent = new Intent(ToDo.this, MainActivity.class);
+            startActivity(intent);
+            finish();
         }
-
-        // Load tasks from Firebase
-        loadTasksFromDatabase();
-
-        // Add task button functionality
-        buttonAdd.setOnClickListener(v -> {
-            String task = editTextTask.getText().toString();
-            if (!task.isEmpty()) {
-                String taskId = tasksRef.push().getKey();  // Generate a unique ID for the task
-                Map<String, Object> taskData = new HashMap<>();
-                taskData.put("task", task);
-                tasksRef.child(taskId).setValue(taskData);
-                addTaskToUI(taskId, task);
-                editTextTask.setText("");  // Clear the input field
-            }
-        });
 
         // Navigate back to Profile activity
         back.setOnClickListener(v -> {
@@ -107,7 +128,7 @@ public class ToDo extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(ToDo.this, "Failed to load tasks.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ToDo.this, "Failed to load tasks: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -118,18 +139,21 @@ public class ToDo extends AppCompatActivity {
         Button removeButton = taskView.findViewById(R.id.removeTaskButton);
         TextView startTask = taskView.findViewById(R.id.startTaskButton);
         taskTextView.setText(task);
+        startTask.setOnClickListener(v -> {
 
-        startTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+            // Implement task start functionality if needed
         });
 
         removeButton.setOnClickListener(v -> {
-            tasksRef.child(taskId).removeValue();  // Remove task from Firebase
-            tasksContainer.removeView(taskView);  // Remove task from UI
-            Toast.makeText(ToDo.this, "Congratulations! You've completed a task!", Toast.LENGTH_SHORT).show();
+            tasksRef.child(taskId).removeValue()  // Remove task from Firebase
+                    .addOnSuccessListener(aVoid -> {
+                        // Remove task from UI
+                        tasksContainer.removeView(taskView);
+                        Toast.makeText(ToDo.this, "Congratulations! You've completed a task!", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(ToDo.this, "Failed to remove task: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
         });
 
         tasksContainer.addView(taskView);

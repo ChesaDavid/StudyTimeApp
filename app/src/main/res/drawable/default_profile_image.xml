@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- State when pressed -->
+    <item android:state_pressed="true">
+        <layer-list>
+            <!-- Circle background when pressed -->
+            <item>
+                <shape android:shape="oval">
+                    <solid android:color="#FFB6C1" /> <!-- Light pink background color -->
+                </shape>
+            </item>
+            <!-- User icon in the center -->
+            <item android:gravity="center">
+                <bitmap android:src="@drawable/ic_user_pressed" />
+            </item>
+        </layer-list>
+    </item>
+
+    <!-- State when focused -->
+    <item android:state_focused="true">
+        <layer-list>
+            <!-- Circle background when focused -->
+            <item>
+                <shape android:shape="oval">
+                    <solid android:color="#ADD8E6" /> <!-- Light blue background color -->
+                </shape>
+            </item>
+            <!-- User icon in the center -->
+            <item android:gravity="center">
+                <bitmap android:src="@drawable/ic_user_focused" />
+            </item>
+        </layer-list>
+    </item>
+
+    <!-- Default state -->
+    <item>
+        <layer-list>
+            <!-- Default circle background -->
+            <item>
+                <shape android:shape="oval">
+                    <solid android:color="#CCCCCC" /> <!-- Light gray background color -->
+                </shape>
+            </item>
+            <!-- User icon in the center -->
+            <item android:gravity="center">
+                <bitmap android:src="@drawable/ic_user_default" />
+            </item>
+        </layer-list>
+    </item>
+
+</selector>

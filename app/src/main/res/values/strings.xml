@@ -38,4 +38,5 @@
     <string name="Profile">Profile</string>
     <string name="delete">Delete</string>
     <string name="startTsk">Start task</string>
+    <string name="site">Visit my github</string>
 </resources>

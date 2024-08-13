@@ -43,11 +43,7 @@ public class Register extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        selectImg = findViewById(R.id.buttonSelectImage);
-        selectImg.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            //CONTINUE HOME
-        });
+
 
         exit = findViewById(R.id.exit);
         exit.setOnClickListener(new View.OnClickListener() {

@@ -82,4 +82,24 @@
       android:textColor="@color/white"
       />
 
+  <TextView
+      android:id="@+id/site"
+      android:layout_width="156dp"
+      android:layout_height="40dp"
+      android:rotation="26"
+      android:rotationX="2"
+      android:rotationY="-2"
+      android:text="@string/site"
+      android:textAlignment="center"
+      android:textColor="@color/blue_800"
+      android:textSize="22sp"
+      android:textStyle="bold"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.807"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.066"
+      tools:ignore="HardcodedText" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
