@@ -39,4 +39,5 @@
     <string name="delete">Delete</string>
     <string name="startTsk">Start task</string>
     <string name="site">Visit my github</string>
+    <string name="x">x</string>
 </resources>

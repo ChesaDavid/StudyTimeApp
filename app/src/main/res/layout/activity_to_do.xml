@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="Profile"
         android:layout_gravity="start"
-        android:background="@drawable/button_background"
+        android:background="@color/red_800"
         android:textColor="@color/white"
         android:padding="10dp"
         android:layout_marginBottom="16dp"/>
@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Add Task"
-        android:background="@drawable/button_background"
+        android:background="@color/red_800"
         android:textColor="@color/white"
         android:padding="12dp"
         android:layout_marginBottom="16dp"/>

@@ -136,8 +136,8 @@ public class ToDo extends AppCompatActivity {
     private void addTaskToUI(String taskId, String task) {
         View taskView = getLayoutInflater().inflate(R.layout.task_item, tasksContainer, false);
         TextView taskTextView = taskView.findViewById(R.id.taskText);
-        Button removeButton = taskView.findViewById(R.id.removeTaskButton);
-        TextView startTask = taskView.findViewById(R.id.startTaskButton);
+        TextView removeButton = taskView.findViewById(R.id.removeTaskButton);
+        Button startTask = taskView.findViewById(R.id.startTaskButton);
         taskTextView.setText(task);
         startTask.setOnClickListener(v -> {
 
@@ -154,6 +154,8 @@ public class ToDo extends AppCompatActivity {
                     .addOnFailureListener(e -> {
                         Toast.makeText(ToDo.this, "Failed to remove task: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
+            taskView.setVisibility(View.GONE);
+            Toast.makeText(this, "Congrats you have finished a task ", Toast.LENGTH_SHORT).show();
         });
 
         tasksContainer.addView(taskView);
