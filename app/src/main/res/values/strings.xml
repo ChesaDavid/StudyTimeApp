@@ -40,4 +40,5 @@
     <string name="startTsk">Start task</string>
     <string name="site">Visit my github</string>
     <string name="x">x</string>
+    <string name="abort">Abort</string>
 </resources>

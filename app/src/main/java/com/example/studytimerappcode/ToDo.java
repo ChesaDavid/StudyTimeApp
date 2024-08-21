@@ -18,26 +18,26 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ToDo extends AppCompatActivity {
 
     private Button back, buttonAdd;
-    private FirebaseDatabase database;
-    private DatabaseReference tasksRef;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
     private FirebaseUser user;
     private TextView name;
     private EditText editTextTask;
     private LinearLayout tasksContainer;
+    private DocumentReference userDocRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +51,9 @@ public class ToDo extends AppCompatActivity {
             return insets;
         });
 
-        // Initialize Firebase Auth and Database
+        // Initialize Firebase Auth and Firestore
         mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
+        db = FirebaseFirestore.getInstance();
         user = mAuth.getCurrentUser();
 
         // Initialize UI elements
@@ -67,34 +67,18 @@ public class ToDo extends AppCompatActivity {
         if (user != null) {
             name.setText("Hello, " + user.getDisplayName());
 
-            // Reference to the user's tasks in the database
-            tasksRef = database.getReference("tasks").child(user.getUid());
+            // Reference to the user's document in Firestore
+            userDocRef = db.collection("user").document(user.getUid());
 
-            // Load tasks from Firebase
-            loadTasksFromDatabase();
+            // Load tasks from Firestore
+            loadTasksFromFirestore();
 
             // Add task button functionality
             buttonAdd.setOnClickListener(v -> {
                 String task = editTextTask.getText().toString();
                 if (!task.isEmpty()) {
-                    String taskId = tasksRef.push().getKey();  // Generate a unique ID for the task
-                    Map<String, Object> taskData = new HashMap<>();
-                    taskData.put("task", task);
-
-                    Log.d("ToDoActivity", "Adding task with ID: " + taskId);
-
-                    tasksRef.child(taskId).setValue(taskData)
-                            .addOnSuccessListener(aVoid -> {
-                                // Write was successful
-                                Toast.makeText(ToDo.this, "Task added successfully", Toast.LENGTH_SHORT).show();
-                            })
-                            .addOnFailureListener(e -> {
-                                // Write failed
-                                Log.e("ToDoActivity", "Failed to add task: " + e.getMessage());
-                                Toast.makeText(ToDo.this, "Failed to add task: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            });
-                    addTaskToUI(taskId, task);
-                    editTextTask.setText("");  // Clear the input field
+                    // Add task to Firestore (append to the tasks array)
+                    addTaskToFirestore(task);
                 }
             });
 
@@ -114,48 +98,112 @@ public class ToDo extends AppCompatActivity {
         });
     }
 
-    private void loadTasksFromDatabase() {
-        tasksRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                tasksContainer.removeAllViews();  // Clear the container before adding tasks
-                for (DataSnapshot taskSnapshot : dataSnapshot.getChildren()) {
-                    String taskId = taskSnapshot.getKey();
-                    String task = taskSnapshot.child("task").getValue(String.class);
-                    addTaskToUI(taskId, task);
+    private void loadTasksFromFirestore() {
+        userDocRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                List<String> tasks = (List<String>) documentSnapshot.get("tasks");
+                if (tasks != null) {
+                    tasksContainer.removeAllViews();  // Clear the container before adding tasks
+                    for (String task : tasks) {
+                        addTaskToUI(task);
+                    }
                 }
+            } else {
+                // Document does not exist, you might want to create it here if needed
+                Toast.makeText(ToDo.this, "No tasks found.", Toast.LENGTH_SHORT).show();
             }
+        }).addOnFailureListener(e -> {
+            Toast.makeText(ToDo.this, "Failed to load tasks: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(ToDo.this, "Failed to load tasks: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+    private void addTaskToFirestore(String task) {
+        userDocRef.get().addOnCompleteListener(taskSnapshot -> {
+            if (taskSnapshot.isSuccessful()) {
+                DocumentSnapshot document = taskSnapshot.getResult();
+                if (document.exists()) {
+                    // If document exists, update the tasks array
+
+                    userDocRef.update("tasks", FieldValue.arrayUnion(task))
+                            .addOnSuccessListener(aVoid -> {
+                                Toast.makeText(ToDo.this, "Task added successfully", Toast.LENGTH_SHORT).show();
+                                addTaskToUI(task);  // Add the task to the UI
+                                editTextTask.setText("");  // Clear the input field
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.e("ToDoActivity", "Failed to add task: " + e.getMessage());
+                                Toast.makeText(ToDo.this, "Failed to add task: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+                } else {
+                    // If document does not exist, create it with the task array
+                    Map<String, Object> userData = new HashMap<>();
+                    List<String> tasks = new ArrayList<>();
+                    tasks.add(task);
+                    userData.put("tasks", tasks);
+
+                    Map<Boolean,Object> userData2 = new HashMap<>();
+                    List<Boolean> started = new ArrayList<>();
+                    started.add(false);
+                    userData2.put(Boolean.valueOf("started"),started);
+                    userDocRef.set(userData2)
+                                    .addOnCompleteListener(aVoid -> {
+                                        Toast.makeText(ToDo.this, "Task added successfully", Toast.LENGTH_SHORT).show();
+                                        addTaskToUI(task);  // Add the task to the UI
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Log.e("ToDoActivity", "Failed to create document: " + e.getMessage());
+                                        Toast.makeText(ToDo.this, "Failed to add task: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    });
+
+                    userDocRef.set(userData)
+                            .addOnSuccessListener(aVoid -> {
+                                Toast.makeText(ToDo.this, "Task added successfully", Toast.LENGTH_SHORT).show();
+                                addTaskToUI(task);  // Add the task to the UI
+                                editTextTask.setText("");  // Clear the input field
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.e("ToDoActivity", "Failed to create document: " + e.getMessage());
+                                Toast.makeText(ToDo.this, "Failed to add task: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+                }
+            } else {
+                Log.e("ToDoActivity", "Failed to check document existence: " + taskSnapshot.getException());
+                Toast.makeText(ToDo.this, "Error checking document: " + taskSnapshot.getException().getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void addTaskToUI(String taskId, String task) {
+    private void addTaskToUI(String task) {
         View taskView = getLayoutInflater().inflate(R.layout.task_item, tasksContainer, false);
         TextView taskTextView = taskView.findViewById(R.id.taskText);
         TextView removeButton = taskView.findViewById(R.id.removeTaskButton);
         Button startTask = taskView.findViewById(R.id.startTaskButton);
         taskTextView.setText(task);
-        startTask.setOnClickListener(v -> {
 
-            // Implement task start functionality if needed
+        startTask.setOnClickListener(v -> {
+            // Start the StartTask activity
+            userDocRef.update("started",true)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(ToDo.this, "Congratulations! You've started a task!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(ToDo.this, StartTask.class);
+                        startActivity(intent);
+                        finish();
+                            })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(ToDo.this, "Failed to start task: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
         });
 
         removeButton.setOnClickListener(v -> {
-            tasksRef.child(taskId).removeValue()  // Remove task from Firebase
+            // Remove task from Firestore (remove from the tasks array)
+            userDocRef.update("tasks", FieldValue.arrayRemove(task))
                     .addOnSuccessListener(aVoid -> {
-                        // Remove task from UI
-                        tasksContainer.removeView(taskView);
+                        tasksContainer.removeView(taskView);  // Remove task from UI
                         Toast.makeText(ToDo.this, "Congratulations! You've completed a task!", Toast.LENGTH_SHORT).show();
                     })
                     .addOnFailureListener(e -> {
                         Toast.makeText(ToDo.this, "Failed to remove task: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
-            taskView.setVisibility(View.GONE);
-            Toast.makeText(this, "Congrats you have finished a task ", Toast.LENGTH_SHORT).show();
         });
 
         tasksContainer.addView(taskView);
