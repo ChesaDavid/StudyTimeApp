@@ -66,47 +66,22 @@ public class StartTask extends AppCompatActivity {
             finish();
         });
     }
-//    need to remake the logic
-    public void loadWhichTaskIsStarted() {
+    public void loadWhichTaskIsStarted(){
         userDocRef.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
-                // Safely cast the 'tasks' field as a list of maps
-                List<Map<String, Object>> tasks = (List<Map<String, Object>>) documentSnapshot.get("tasks");
-
-                // Check if tasks are not null
-                if (tasks != null) {
-                    for (Map<String, Object> taskData : tasks) {
-                        // Check if taskData contains the 'started' field and it's of type Boolean
-                        if (taskData.containsKey("started") && taskData.get("started") instanceof Boolean) {
-                            boolean started = (Boolean) taskData.get("started");
-
-                            // If this task is started, set it as the active task
-                            if (started) {
-                                // Safely retrieve the taskName
-                                String taskName = (String) taskData.get("taskName");
-                                if (taskName != null) {
-                                    taskTest.setText(taskName);  // Set the task name in the TextView
-                                } else {
-                                    Toast.makeText(StartTask.this, "Task name is missing", Toast.LENGTH_SHORT).show();
-                                }
-                                return;  // Exit the loop after finding the started task
-                            }
-                        } else {
-                            Toast.makeText(StartTask.this, "Invalid task data", Toast.LENGTH_SHORT).show();
+                List<Boolean> started = (List<Boolean>) documentSnapshot.get("started");
+                if (started != null) {
+                    for(Boolean bool : started){
+                        if(bool){
+                            taskTest.setText("task");
                         }
-                    }
-
-                    // If no task was started
-                    Toast.makeText(StartTask.this, "No task is currently started.", Toast.LENGTH_SHORT).show();
-                } else {
+                    };
+                }else{
                     Toast.makeText(StartTask.this, "No tasks found.", Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                Toast.makeText(StartTask.this, "Document does not exist.", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(StartTask.this, "No tasks found.", Toast.LENGTH_SHORT).show();
             }
-        }).addOnFailureListener(e -> {
-            Toast.makeText(StartTask.this, "Failed to load tasks: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.e("StartTask", "Failed to load tasks: ", e);
         });
     }
 
