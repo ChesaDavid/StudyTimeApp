@@ -50,6 +50,15 @@ public class Profile extends AppCompatActivity {
                 finish();
             }
         });
+        study = findViewById(R.id.study);
+        study.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Profile.this,Study.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         if(user == null){
             Toast.makeText(this, "No user found", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(),MainActivity.class);

@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.StudyTimerAppCode">
         <activity
+            android:name=".Study"
+            android:exported="false" />
+        <activity
             android:name=".StartTask"
             android:exported="false" />
         <activity
