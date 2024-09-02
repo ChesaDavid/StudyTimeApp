@@ -1,7 +1,6 @@
 package com.example.studytimerappcode;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
@@ -31,8 +30,6 @@ public class Study extends AppCompatActivity {
     private long studyTimeLeftInMillis = 1500000 ;
     private long breakTimeLeftInMillis = 300000 ;
     private boolean isStudySession = true;
-    private MediaPlayer mediaPlayer;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +50,6 @@ public class Study extends AppCompatActivity {
         start = findViewById(R.id.start);
         stop = findViewById(R.id.stop);
         pause = findViewById(R.id.pause);
-        mediaPlayer = MediaPlayer.create(this, R.raw.ringtone);
-
 
         decimalBreak = findViewById(R.id.decimalBreak);
         decimalStudy = findViewById(R.id.decimalStudy);
@@ -74,7 +69,6 @@ public class Study extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaPlayer.start();
                 stop.setVisibility(View.VISIBLE);
                 pause.setVisibility(View.VISIBLE);
                 start.setVisibility(View.INVISIBLE);
@@ -122,7 +116,6 @@ public class Study extends AppCompatActivity {
                 @Override
                 public void onFinish() {
                     isStudySession = false; // Switch to break session
-                    mediaPlayer.start();
                     startPomodoroTimer(); // Start break timer
                 }
             }.start();
@@ -137,7 +130,6 @@ public class Study extends AppCompatActivity {
                 @Override
                 public void onFinish() {
                     isStudySession = true; // Switch to study session
-                    mediaPlayer.start();
                     startPomodoroTimer(); // Start study timer again
                 }
             }.start();
